@@ -34,8 +34,8 @@ RUN pip install requests==2.26.0
 RUN pip install lxml==4.7.1
 RUN pip install suds==1.1.2
 RUN pip install https://gh.ddlc.top/https://github.com/jadehh/samples/releases/download/v1.0.2/acllite-1.0.2-py3-none-any.whl
-RUN pip install https://gh.ddlc.top/https://github.com/jadehh/pythonTools/releases/download/OpencvToolsV1.2.0/opencv_tools-1.2.0-py3-none-any.whl
-RUN pip install https://gh.ddlc.top/https://github.com/jadehh/pythonTools/releases/download/JadeV1.5.8/jade-1.5.8-py3-none-any.whl
+RUN pip install https://gh.con.sh/https://github.com/jadehh/pythonTools/releases/download/OpencvToolsV1.2.1/opencv_tools-1.2.1-py3-none-any.whl
+RUN pip install https://gh.con.sh/https://github.com/jadehh/pythonTools/releases/download/JadeV1.5.9/jade-1.5.9-py3-none-any.whl
 
 
 
