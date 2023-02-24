@@ -3,7 +3,8 @@
 ### 构建Image
 
 ```bash
-docker build -t jadehh/container_ocr:ascend-develop-1.0.1 .
+cd 开发环境
+docker build -t jadehh/container_ocr:ascend-develop-1.0.3 .
 ```
 
 ### 启动容器
@@ -20,7 +21,7 @@ docker run   \
   -v /home/data/miniD/driver/lib64:/home/data/miniD/driver/lib64 \
   -v /run/board_cfg.ini:/run/board_cfg.ini \
   -v /tmp:/tmp \
-  -it jadehh/container_ocr:ascend-develop-1.0.1
+  -it jadehh/container_ocr:ascend-develop-1.0.3
 ```
 
 
@@ -28,7 +29,7 @@ docker run   \
 
 ```bash
 cd 打包环境
-docker build -t jadehh/container_ocr:ascend-packing-1.0.1 .
+docker build -t jadehh/container_ocr:ascend-packing-1.0.3 .
 ```
 
 ### 启动容器
@@ -36,7 +37,7 @@ docker build -t jadehh/container_ocr:ascend-packing-1.0.1 .
 ```bash
 docker run --name container_ocr-ascend-packing \
            -v /root/jade:/root/jade \
-          -it jadehh/container_ocr:ascend-packing-1.0.1 
+          -it jadehh/container_ocr:ascend-packing-1.0.3 
 ```
 
 ## Ascend部署环境

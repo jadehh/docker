@@ -31,7 +31,7 @@ RUN pip install spyne==2.13.16
 RUN pip install requests==2.26.0
 RUN pip install lxml==4.7.1
 RUN pip install suds==1.1.2
-RUN pip install https://ghproxy.com/https://github.com/jadehh/pythonTools/releases/download/OpencvToolsV1.2.1/opencv_tools-1.2.1-py3-none-any.whl
-RUN pip install https://gh.ddlc.top/https://github.com/jadehh/pythonTools/releases/download/JadeV1.5.9/jade-1.5.9-py3-none-any.whl
+RUN pip install https://ghproxy.com/https://github.com/jadehh/pythonTools/releases/download/OpencvToolsV1.2.4/opencv_tools-1.2.4-py3-none-any.whl
+RUN pip install https://gh.ddlc.top/https://github.com/jadehh/pythonTools/releases/download/JadeV1.6.0/jade-1.6.0-py3-none-any.whl
 
 
