@@ -33,9 +33,9 @@ RUN pip install spyne==2.13.16
 RUN pip install requests==2.26.0
 RUN pip install lxml==4.7.1
 RUN pip install suds==1.1.2
-RUN pip install https://gh.con.sh/https://github.com/jadehh/samples/releases/download/v1.0.4/acllite-1.0.4-py3-none-any.whl
 RUN pip install https://gh.con.sh/https://github.com/jadehh/pythonTools/releases/download/OpencvToolsV1.2.4/opencv_tools-1.2.4-py3-none-any.whl
 RUN pip install https://gh.ddlc.top/https://github.com/jadehh/pythonTools/releases/download/JadeV1.6.0/jade-1.6.0-py3-none-any.whl
+RUN pip install https://gh.con.sh/https://github.com/jadehh/samples/releases/download/v1.0.6/acllite-1.0.6-py3-none-any.whl
 
 
 

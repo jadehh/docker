@@ -11,7 +11,33 @@ docker build -t jadehh/container_ocr:ascend-develop-1.0.3 .
 
 ```bash
 docker run   \
-  --name container-ocr-ascend-develop \
+  --name container-ocr \
+  --network=host \
+  --privileged \
+  --device=/dev/davinci0 \
+  --device=/dev/davinci_manager \
+  --device=/dev/hisi_hdc --device=/dev/devmm_svm \
+  -v /usr/local/bin/npu-smi:/usr/local/bin/npu-smi \
+  -v /home/data/miniD/driver/lib64:/home/data/miniD/driver/lib64 \
+  -v /run/board_cfg.ini:/run/board_cfg.ini \
+  -v /tmp:/tmp \
+  -it jadehh/container_ocr:ascend-develop-1.0.3
+  
+docker run   \
+  --name container-capture \
+  --network=host \
+  --privileged \
+  --device=/dev/davinci0 \
+  --device=/dev/davinci_manager \
+  --device=/dev/hisi_hdc --device=/dev/devmm_svm \
+  -v /usr/local/bin/npu-smi:/usr/local/bin/npu-smi \
+  -v /home/data/miniD/driver/lib64:/home/data/miniD/driver/lib64 \
+  -v /run/board_cfg.ini:/run/board_cfg.ini \
+  -v /tmp:/tmp \
+  -it jadehh/container_ocr:ascend-develop-1.0.3
+  
+ docker run   \
+  --name container-tools \
   --network=host \
   --privileged \
   --device=/dev/davinci0 \
