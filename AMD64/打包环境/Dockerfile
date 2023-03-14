@@ -1,8 +1,4 @@
-FROM jadehh/miniconda3:amd64-4.9.2
-## Conda环境设置
-RUN conda create -n python3.6 python=3.6 -y
-RUN echo "conda activate python3.6" >> /root/.bashrc
-RUN conda activate python3.6
+FROM jadehh/miniconda3:amd64-4.5.4
 ## pip环境设置
 RUN pip install tornado==4.5.1
 RUN pip install scipy==1.5.4
