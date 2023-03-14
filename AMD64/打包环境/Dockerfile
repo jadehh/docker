@@ -1,20 +1,33 @@
-FROM jadehh/miniconda3:python-3.6.9
-## pip环境设置
-RUN rm -r /root/miniconda3/bin/pip
-RUN ln -s /root/miniconda3/envs/python3.6.9/bin/pip /root/miniconda3/bin/pip
-RUN pip install tornado==4.5.1
-RUN pip install scipy==1.5.4
-RUN pip install imutils==0.5.4
-RUN pip install spyne==2.13.16
-RUN pip install lxml==4.7.1
-RUN pip install requests==2.27.1
-RUN pip install suds==1.1.2
-RUN pip install pyclipper==1.3.0
-RUN pip install shapely==1.8.0
-RUN pip install https://gh.con.sh/https://github.com/jadehh/pythonTools/releases/download/JadeV1.8.1/jade-1.8.1-py3-none-any.whl
-RUN pip install https://gh.con.sh/https://github.com/jadehh/pythonTools/releases/download/OpencvToolsV1.2.4/opencv_tools-1.2.4-py3-none-any.whl
-RUN pip install https://gh.ddlc.top/https://github.com/jadehh/paddle/releases/download/v2.1.0-gpu-linux-py3.6/paddle_gpu_clean-2.1.0-cp36-cp36m-manylinux1_x86_64.whl
+FROM  jadehh/ubuntu:amd64-18.04
+# image 标签
+MAINTAINER jadehh@live.com
+RUN rm /etc/apt/sources.list
+RUN echo deb https://mirrors.ustc.edu.cn/ubuntu/ bionic main restricted universe multiverse >> /etc/apt/sources.list
+RUN echo deb-src https://mirrors.ustc.edu.cn/ubuntu/ bionic main restricted universe multiverse >> /etc/apt/sources.list
+RUN echo deb https://mirrors.ustc.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse >> /etc/apt/sources.list
+RUN echo deb-src https://mirrors.ustc.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse >> /etc/apt/sources.list
+
+RUN echo deb https://mirrors.ustc.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse >> /etc/apt/sources.list
+RUN echo deb-src https://mirrors.ustc.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse >> /etc/apt/sources.list
+RUN echo deb https://mirrors.ustc.edu.cn/ubuntu/ bionic-security main restricted universe multiverse >> /etc/apt/sources.list
+RUN echo deb-src https://mirrors.ustc.edu.cn/ubuntu/ bionic-security main restricted universe multiverse>> /etc/apt/sources.list
+RUN echo deb https://mirrors.ustc.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse >> /etc/apt/sources.list
+RUN echo deb-src https://mirrors.ustc.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse>> /etc/apt/sources.list
+
+## pip换源
+RUN mkdir /root/.pip/
+RUN touch /root/.pip/pip.conf
+RUN echo "[global]" >> /root/.pip/pip.conf
+RUN echo "index-url = https://mirrors.bfsu.edu.cn/pypi/web/simple" >> /root/.pip/pip.conf
+RUN echo "trusted-host = mirrors.bfsu.edu.cn" >> /root/.pip/pip.conf
 
 
+RUN apt-get update
+RUN apt-get install -y python3-dev
+RUN apt-get install -y python3-pip
+RUN ln -s /usr/bin/python3 /usr/bin/python
+RUN ln -s /usr/bin/pip3 /usr/bin/pip
+RUN pip install -U pip setuptools
+## 清除缓存
 
-
+RUN apt-get clean
