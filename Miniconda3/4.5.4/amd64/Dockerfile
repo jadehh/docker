@@ -11,8 +11,8 @@ RUN apt-get install -y wget vim  gcc
 RUN mkdir /root/.pip/
 RUN touch /root/.pip/pip.conf
 RUN echo "[global]" >> /root/.pip/pip.conf
-RUN echo "index-url = https://pypi.tuna.tsinghua.edu.cn/simple" >> /root/.pip/pip.conf
-RUN echo "trusted-host = pypi.tuna.tsinghua.edu.cn" >> /root/.pip/pip.conf
+RUN echo "index-url = https://mirrors.bfsu.edu.cn/pypi/web/simple" >> /root/.pip/pip.conf
+RUN echo "trusted-host = mirrors.bfsu.edu.cn/pypi/web/simple" >> /root/.pip/pip.conf
 
 
 ## 安装MiniConda3
