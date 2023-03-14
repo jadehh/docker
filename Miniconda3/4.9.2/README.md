@@ -3,7 +3,8 @@
 ### 打包镜像
 ```bash
 cd aarch64
-docker build -t jadehh/miniconda3:aarch64-4.9.2 . 
+docker build -t amd64
+README.md . 
 ```
 
 ## 上传镜像
