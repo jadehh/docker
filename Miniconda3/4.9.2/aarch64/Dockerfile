@@ -7,14 +7,6 @@ MAINTAINER jadehh@live.com
 RUN apt-get update
 RUN apt-get install -y wget vim  gcc
 
-## pip换源
-RUN mkdir /root/.pip/
-RUN touch /root/.pip/pip.conf
-RUN echo "[global]" >> /root/.pip/pip.conf
-RUN echo "index-url = https://pypi.tuna.tsinghua.edu.cn/simple" >> /root/.pip/pip.conf
-RUN echo "trusted-host = pypi.tuna.tsinghua.edu.cn" >> /root/.pip/pip.conf
-
-
 ## 安装MiniConda3
 RUN wget https://mirrors.bfsu.edu.cn/anaconda/miniconda/Miniconda3-py37_4.9.2-Linux-aarch64.sh
 RUN bash Miniconda3-py37_4.9.2-Linux-aarch64.sh -b -p /root/miniconda3/
