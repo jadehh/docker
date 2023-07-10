@@ -69,4 +69,5 @@ RUN wget https://gh.con.sh/https://github.com/jadehh/opencv/archive/refs/tags/4.
 RUN cd opencv-4.8.0/ && git clone https://gh.con.sh/https://github.com/jadehh/opencv_contrib.git
 RUN cd opencv-4.8.0/ && mkdir build && cd build && \
 cmake -D WITH_NVCUVID=ON -D OPENCV_ENABLE_NONFREE=ON -D WITH_CUDA=ON  -D CUDA_ARCH_BIN=${CUDA_ARCH_BIN} -D WITH_OPENGL=ON -D BUILD_opencv_cudacodec=ON -D BUILD_opencv_cudalegacy=ON -D OPENCV_EXTRA_MODULES_PATH=/opencv-4.8.0/opencv_contrib/modules/  -D BUILD_opencv_python3=ON  -DCMAKE_LIBRARY_PATH=/usr/local/cuda/lib64/stubs ..
-RUN cd opencv-4.8.0/build && make -j16
+RUN cd opencv-4.8.0/build && make -j${CPU_THERAD_COMPILE}
+RUN wget https://gh.con.sh/https://github.com/jadehh/OpencvCapture/releases/download/v0.0.0.4/OpencvCapture && chmod a+x OpencvCapture
