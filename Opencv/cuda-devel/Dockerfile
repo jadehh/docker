@@ -71,3 +71,11 @@ RUN cd opencv-4.8.0/ && mkdir build && cd build && \
 cmake -D WITH_NVCUVID=ON -D OPENCV_ENABLE_NONFREE=ON -D WITH_CUDA=ON  -D CUDA_ARCH_BIN=${CUDA_ARCH_BIN} -D WITH_OPENGL=ON -D BUILD_opencv_cudacodec=ON -D BUILD_opencv_cudalegacy=ON -D OPENCV_EXTRA_MODULES_PATH=/opencv-4.8.0/opencv_contrib/modules/  -D BUILD_opencv_python3=ON  -DCMAKE_LIBRARY_PATH=/usr/local/cuda/lib64/stubs ..
 RUN cd opencv-4.8.0/build && make -j${CPU_THERAD_COMPILE}
 RUN wget https://gh.con.sh/https://github.com/jadehh/OpencvCapture/releases/download/v0.0.0.4/OpencvCapture && chmod a+x OpencvCapture
+RUN mkdir /usr/local/opencv
+## 拷贝cv2.so的依赖项
+RUN wget  https://gh.con.sh/https://github.com/jadehh/LDDTools/releases/download/v0.0.0.6/LDDTools && chmod a+x LDDTools && \
+    ./LDDTools -binary_file  /opencv-4.8.0/build/lib/python3/cv2.cpython-310-x86_64-linux-gnu.so -output_dir /usr/local/opencv && rm LDDTools
+RUN cp  /opencv-4.8.0/build/lib/python3/cv2.cpython-310-x86_64-linux-gnu.so  /usr/local/opencv
+RUN tar -czvf opencv-cuda-${CUDA_VERSION}-cudnn${CUDNN_VERSION}-arch-${CUDA_ARCH_BIN}-${Operation_VERSION}.tar.gz  /usr/local/opencv
+
+
