@@ -53,7 +53,12 @@ RUN echo "更新opencv"
 RUN wget https://gh.con.sh/https://github.com/jadehh/opencv/releases/download/4.8.0/opencv-cuda-${CUDA_VERSION}-cudnn${CUDNN_VERSION}-arch-${CUDA_ARCH_BIN}-${Operation_VERSION}.tar.gz  && tar -xvf  opencv-cuda-${CUDA_VERSION}-cudnn${CUDNN_VERSION}-arch-${CUDA_ARCH_BIN}-${Operation_VERSION}.tar.gz  && rm opencv-cuda-${CUDA_VERSION}-cudnn${CUDNN_VERSION}-arch-${CUDA_ARCH_BIN}-${Operation_VERSION}.tar.gz
 RUN echo "/usr/local/opencv" > /etc/ld.so.conf.d/opencv.conf
 RUN wget https://gh.con.sh/https://github.com/jadehh/OpencvCapture/releases/download/v0.0.0.5/OpencvCapture && chmod a+x OpencvCapture
-
-
-
+RUN rm /opt/nvidia/nvidia_entrypoint.sh
+RUN echo '#!/bin/bash' > /opt/nvidia/nvidia_entrypoint.sh
+RUN echo 'if [[ $# -eq 0 ]]; then' >> /opt/nvidia/nvidia_entrypoint.sh && \
+    echo 'exec "/bin/bash"'  >> /opt/nvidia/nvidia_entrypoint.sh && \
+    echo 'else'  >> /opt/nvidia/nvidia_entrypoint.sh && \
+    echo '  exec "$@"' >> /opt/nvidia/nvidia_entrypoint.sh && \
+    echo 'fi' >> /opt/nvidia/nvidia_entrypoint.sh && \
+    chmod a+x  /opt/nvidia/nvidia_entrypoint.sh
 

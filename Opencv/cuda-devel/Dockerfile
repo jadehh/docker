@@ -77,5 +77,13 @@ RUN wget  https://gh.con.sh/https://github.com/jadehh/LDDTools/releases/download
     ./LDDTools -binary_file  /opencv-4.8.0/build/lib/python3/cv2.cpython-310-x86_64-linux-gnu.so -output_dir /usr/local/opencv && rm LDDTools
 RUN cp  /opencv-4.8.0/build/lib/python3/cv2.cpython-310-x86_64-linux-gnu.so  /usr/local/opencv
 RUN tar -czvf opencv-cuda-${CUDA_VERSION}-cudnn${CUDNN_VERSION}-arch-${CUDA_ARCH_BIN}-${Operation_VERSION}.tar.gz  /usr/local/opencv
+RUN rm /opt/nvidia/nvidia_entrypoint.sh
+RUN echo '#!/bin/bash' > /opt/nvidia/nvidia_entrypoint.sh
+RUN echo 'if [[ $# -eq 0 ]]; then' >> /opt/nvidia/nvidia_entrypoint.sh && \
+    echo 'exec "/bin/bash"'  >> /opt/nvidia/nvidia_entrypoint.sh && \
+    echo 'else'  >> /opt/nvidia/nvidia_entrypoint.sh && \
+    echo '  exec "$@"' >> /opt/nvidia/nvidia_entrypoint.sh && \
+    echo 'fi' >> /opt/nvidia/nvidia_entrypoint.sh && \
+    chmod a+x  /opt/nvidia/nvidia_entrypoint.sh
 
 
