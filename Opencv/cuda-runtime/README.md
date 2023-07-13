@@ -3,12 +3,13 @@
 ### ubuntu18.04 cuda11.6 部署镜像
 CUDA_ARCH_BIN指的是当前显卡的算力7.5
 ```bash
-docker build  --build-arg CUDA_ARCH_BIN="7.5"  --build-arg Operation_VERSION="ubuntu18.04"   --build-arg Operation_VERSION="ubuntu18.04"  --build-arg CUDA_VERSION="11.6.2"  --build-arg CUDNN_VERSION="8"  -t   jadehh/opencv-cuda:11.6.2-arch-7.5-opencv4-8-0-runtime-ubuntu18.04 .
+docker build  --build-arg CUDA_ARCH_BIN="7.5"  --build-arg Operation_VERSION="ubuntu18.04"    --build-arg CUDA_VERSION="11.6.2"  --build-arg CUDNN_VERSION="8"  -t   jadehh/opencv-cuda:11.6.2-arch-7.5-opencv4-8-0-runtime-ubuntu18.04 .
+
 ```
 CUDA_ARCH_BIN指的是当前显卡的算力8.6
 
 ```bash
-docker build  --build-arg CUDA_ARCH_BIN="8.6"  --build-arg Operation_VERSION="ubuntu18.04"   --build-arg Operation_VERSION="ubuntu18.04"  --build-arg CUDA_VERSION="11.6.2"  --build-arg CUDNN_VERSION="8"  -t   jadehh/opencv-cuda:11.6.2-arch-8.6-opencv4-8-0-runtime-ubuntu18.04 .
+docker build  --build-arg CUDA_ARCH_BIN="8.6"  --build-arg Operation_VERSION="ubuntu18.04"  --build-arg CUDA_VERSION="11.6.2"  --build-arg CUDNN_VERSION="8"  -t   jadehh/opencv-cuda:11.6.2-arch-8.6-opencv4-8-0-runtime-ubuntu18.04 .
 ```
 
 ### 启动
