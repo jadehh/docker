@@ -53,19 +53,21 @@ RUN if [ "$Operation_VERSION" = "ubuntu18.04" ];\
 
 RUN if [ "$Operation_VERSION" = "ubuntu20.04" ];\
     then \
-    echo "deb https://mirrors.ustc.edu.cn/ubuntu/ jammy main restricted universe multiverse" > /etc/apt/sources.list && \
-    echo "# deb-src https://mirrors.ustc.edu.cn/ubuntu/ jammy main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "deb https://mirrors.ustc.edu.cn/ubuntu/ jammy-security main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "# deb-src https://mirrors.ustc.edu.cn/ubuntu/ jammy-security main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "deb https://mirrors.ustc.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "# deb-src https://mirrors.ustc.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "deb https://mirrors.ustc.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "# deb-src https://mirrors.ustc.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse" >> /etc/apt/sources.list; \
+    echo "deb https://mirrors.ustc.edu.cn/ubuntu/ focal main restricted universe multiverse" > /etc/apt/sources.list && \
+    echo "deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal main restricted universe multiverse" >> /etc/apt/sources.list && \
+    echo "deb https://mirrors.ustc.edu.cn/ubuntu/ focal-security main restricted universe multiverse" >> /etc/apt/sources.list && \
+    echo "deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-security main restricted universe multiverse" >> /etc/apt/sources.list && \
+    echo "deb https://mirrors.ustc.edu.cn/ubuntu/ focal-updates main restricted universe multiverse" >> /etc/apt/sources.list && \
+    echo "deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-updates main restricted universe multiverse" >> /etc/apt/sources.list && \
+    echo "deb https://mirrors.ustc.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse" >> /etc/apt/sources.list && \
+    echo "deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse" >> /etc/apt/sources.list; \
+    echo "deb https://mirrors.ustc.edu.cn/ubuntu/ focal-backports main restricted universe multiverse" >> /etc/apt/sources.list; \
+    echo "deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-backports main restricted universe multiverse" >> /etc/apt/sources.list; \
     fi
 
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A4B469963BF863CC
 RUN apt-get update
-RUN apt-get install -y wget   unzip  cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev  libswscale-dev libopenblas-dev  libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev  libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev  software-properties-common  python3-dev python3-numpy   && rm -rf /var/lib/apt/lists/*
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y wget   unzip  cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev  libswscale-dev libopenblas-dev  libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev  libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev  software-properties-common  python3-dev python3-numpy   && rm -rf /var/lib/apt/lists/*
 
 
 
@@ -73,6 +75,10 @@ RUN apt-get install -y wget   unzip  cmake git libgtk2.0-dev pkg-config libavcod
 RUN wget -P /usr/share/fonts/ https://gh.con.sh/https://github.com/jadehh/pythonTools/releases/download/v1.3.9/simhei.ttf
 
 ## 解决时间问题
+RUN if [ "$Operation_VERSION" = "ubuntu20.04" ];\
+    then \
+    rm -r /usr/share/zoneinfo; \
+    fi
 RUN mkdir /usr/share/zoneinfo/
 RUN wget -P /usr/share/zoneinfo/ https://gh.con.sh/https://github.com/jadehh/pythonTools/releases/download/v1.3.9/PRC
 RUN ln -sf /usr/share/zoneinfo/PRC /etc/localtime
@@ -106,10 +112,10 @@ RUN cd opencv-4.8.0/ && mkdir build && cd build && \
 cmake -D WITH_NVCUVID=ON -D OPENCV_ENABLE_NONFREE=ON -D WITH_CUDA=ON  -D CUDA_ARCH_BIN=${CUDA_ARCH_BIN} -D WITH_OPENGL=ON -D BUILD_opencv_cudacodec=ON -D BUILD_opencv_cudalegacy=ON -D OPENCV_EXTRA_MODULES_PATH=/opencv-4.8.0/opencv_contrib/modules/  -D BUILD_opencv_python3=ON  -DCMAKE_LIBRARY_PATH=/usr/local/cuda/lib64/stubs ..
 
 RUN cd opencv-4.8.0/build && make -j${CPU_THERAD_COMPILE}
-RUN wget https://gh.con.sh/https://github.com/jadehh/OpencvCapture/releases/download/v0.0.0.8/OpencvCapture-${Operation_VERSION} && chmod a+x OpencvCapture-${Operation_VERSION} && mv  OpencvCapture-${Operation_VERSION} OpencvCapture
+RUN wget https://gh.con.sh/https://github.com/jadehh/OpencvCapture/releases/download/v0.0.1.1/OpencvCapture-${Operation_VERSION} && chmod a+x OpencvCapture-${Operation_VERSION} && mv  OpencvCapture-${Operation_VERSION} OpencvCapture
 RUN mkdir /usr/local/opencv
-## 拷贝cv2.so的依赖项
-RUN wget  https://gh.con.sh/https://github.com/jadehh/LDDTools/releases/download/v0.0.0.9/LDDTools-${Operation_VERSION} && mv LDDTools-${Operation_VERSION} LDDTools && chmod a+x LDDTools && \
+# 拷贝cv2.so的依赖项
+RUN wget  https://gh.con.sh/https://github.com/jadehh/LDDTools/releases/download/v0.0.1.1/LDDTools-${Operation_VERSION} && mv LDDTools-${Operation_VERSION} LDDTools && chmod a+x LDDTools && \
     ./LDDTools -binary_file  /opencv-4.8.0/build/lib/python3/cv2.* -output_dir /usr/local/opencv && rm LDDTools
 RUN cp  /opencv-4.8.0/build/lib/python3/cv2.*  /usr/local/opencv
 RUN tar -czvf opencv-cuda-${CUDA_VERSION}-cudnn${CUDNN_VERSION}-arch-${CUDA_ARCH_BIN}-${Operation_VERSION}.tar.gz  /usr/local/opencv

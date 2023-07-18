@@ -4,11 +4,11 @@
 ### 打包镜像
 
 ```bash
-docker build -t jadehh/miniconda3:python-3.6.9 . 
+docker build -t jadehh/miniconda3:Python-3.6.9 . 
 ```
 
 ## 上传镜像
 
 ```bash
-docker push jadehh/miniconda3:python-3.6.9 
+docker push jadehh/miniconda3:Python-3.6.9 
 ```
