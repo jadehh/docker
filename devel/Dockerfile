@@ -28,4 +28,3 @@ RUN if [ "$CUDA_VERSION" == "10.0" ];\
     pip install onnxruntime-gpu==1.4;\
     fi
 
-#RUN pip install onnxruntime-gpu==1.14
