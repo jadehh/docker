@@ -32,7 +32,7 @@ docker run --name opencv-cuda --gpus=all -v /mnt/c/Windows/System32/lxss/lib/lib
 ```
 拷贝opencv环境
 ```bash
-docker cp opencv-cuda:/opencv-cuda-10.0-cudnn7-arch-7.5-ubuntu18.04.tar.gz ./
+docker cp opencv-cuda:/opencv-cuda-10.0-cudnn7-arch-7.5-py3.10.gz ./
 ```
 
 普通Ubuntu启动
