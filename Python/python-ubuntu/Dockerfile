@@ -25,7 +25,7 @@ RUN echo "deb http://mirrors.ustc.edu.cn/ubuntu/ bionic main restricted universe
     echo "deb-src http://mirrors.ustc.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse" >> /etc/apt/sources.list
 ## 安装Python
 RUN apt-get update && apt-get install -y wget  build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev && rm -rf /var/lib/apt/lists/*
-RUN wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz && tar -xf Python-${PYTHON_VERSION}.tgz && rm Python-${PYTHON_VERSION}.tgz && cd  Python-${PYTHON_VERSION}/ && ./configure --enable-shared && make -j $(nproc) &&  make altinstall && rm -r Python-${PYTHON_VERSION}/
+RUN wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz && tar -xf Python-${PYTHON_VERSION}.tgz && rm Python-${PYTHON_VERSION}.tgz && cd  Python-${PYTHON_VERSION}/ && ./configure --enable-shared && make -j $(nproc) &&  make altinstall && rm -r /Python-${PYTHON_VERSION}/
 RUN mv /usr/local/lib/libpython${PYTHON_VERSION%.*}.so.1.0 /usr/lib/x86_64-linux-gnu/
 RUN ln -sT /usr/lib/x86_64-linux-gnu/libpython${PYTHON_VERSION%.*}.so.1.0 /usr/lib/x86_64-linux-gnu/libpython${PYTHON_VERSION%.*}.so
 RUN ln -sT /usr/lib/x86_64-linux-gnu/libpython${PYTHON_VERSION%.*}.so.1.0 /usr/lib/x86_64-linux-gnu/libpython${PYTHON_VERSION%%.*}.so
