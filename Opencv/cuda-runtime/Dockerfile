@@ -15,18 +15,7 @@ RUN echo "CUDA版本为:${CUDA_VERSION}"
 RUN echo "CUDNN版本为:${CUDNN_VERSION}"
 
 
-RUN if [ "$CUDA_VERSION" != "10.0" ];\
-    then \
-      ## 去除docker容器的输出 \
-    rm /opt/nvidia/nvidia_entrypoint.sh && \
-    echo '#!/bin/bash' > /opt/nvidia/nvidia_entrypoint.sh  && \
-    echo 'if [[ $# -eq 0 ]]; then' >> /opt/nvidia/nvidia_entrypoint.sh && \
-    echo 'exec "/bin/bash"'  >> /opt/nvidia/nvidia_entrypoint.sh && \
-    echo 'else'  >> /opt/nvidia/nvidia_entrypoint.sh && \
-    echo '  exec "$@"' >> /opt/nvidia/nvidia_entrypoint.sh && \
-    echo 'fi' >> /opt/nvidia/nvidia_entrypoint.sh && \
-    chmod a+x  /opt/nvidia/nvidia_entrypoint.sh ; \
-    fi
+
 ## 换源
 RUN rm -r /etc/apt/sources.list
 # 默认注释了源码仓库，如有需要可自行取消注释
@@ -57,11 +46,34 @@ RUN ln -sf /usr/share/zoneinfo/PRC /etc/localtime
 RUN mkdir /home/jade
 RUN touch /home/jade/test.log
 
+## 去除多余输出
+RUN if [ "$CUDA_VERSION" = "11.6.2" ];\
+    then \
+      ## 去除docker容器的输出 \
+    rm /opt/nvidia/nvidia_entrypoint.sh && \
+    echo '#!/bin/bash' > /opt/nvidia/nvidia_entrypoint.sh  && \
+    echo 'if [[ $# -eq 0 ]]; then' >> /opt/nvidia/nvidia_entrypoint.sh && \
+    echo 'exec "/bin/bash"'  >> /opt/nvidia/nvidia_entrypoint.sh && \
+    echo 'else'  >> /opt/nvidia/nvidia_entrypoint.sh && \
+    echo '  exec "$@"' >> /opt/nvidia/nvidia_entrypoint.sh && \
+    echo 'fi' >> /opt/nvidia/nvidia_entrypoint.sh && \
+    chmod a+x  /opt/nvidia/nvidia_entrypoint.sh ; \
+    fi
+
 RUN echo "更新opencv"
 RUN wget https://gh.con.sh/https://github.com/jadehh/opencv/releases/download/4.8.0/opencv-cuda-${CUDA_VERSION}-cudnn${CUDNN_VERSION}-arch-${CUDA_ARCH_BIN}-py${PYTHON_VERSION%.*}.gz   && tar -xvf  opencv-cuda-${CUDA_VERSION}-cudnn${CUDNN_VERSION}-arch-${CUDA_ARCH_BIN}-py${PYTHON_VERSION%.*}.gz   && rm opencv-cuda-${CUDA_VERSION}-cudnn${CUDNN_VERSION}-arch-${CUDA_ARCH_BIN}-py${PYTHON_VERSION%.*}.gz
 RUN echo "/usr/local/opencv" > /etc/ld.so.conf.d/opencv.conf
-RUN wget https://gh.con.sh/https://github.com/jadehh/OpencvCapture/releases/download/v0.0.1.5/OpencvCapture-py${PYTHON_VERSION%.*}  && mv  OpencvCapture-py${PYTHON_VERSION%.*} OpencvCapture && chmod a+x OpencvCapture
+RUN wget https://gh.con.sh/https://github.com/jadehh/OpencvCapture/releases/download/v0.0.1.8/OpencvCapture-py${PYTHON_VERSION%.*}  && mv  OpencvCapture-py${PYTHON_VERSION%.*} OpencvCapture && chmod a+x OpencvCapture
 
 ## 安装numpy
 RUN mkdir /usr/local/site-packages
-RUN wget http://mirrors.bfsu.edu.cn/pypi/web/packages/d0/55/559e6f455a066e12058330377259a106b7fefa41c15dbdb1b71070cec429/numpy-1.25.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl && mv numpy-1.25.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl numpy.zip && unzip numpy.zip && mv /numpy* /usr/local/site-packages/ && rm -r /usr/local/site-packages/numpy.zip
+RUN if [ ${PYTHON_VERSION%.*} = "3.10" ];\
+    then \
+      ## 去除docker容器的输出 \
+    wget http://mirrors.bfsu.edu.cn/pypi/web/packages/d0/55/559e6f455a066e12058330377259a106b7fefa41c15dbdb1b71070cec429/numpy-1.25.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl && mv numpy-1.25.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl numpy.zip && unzip numpy.zip && mv /numpy* /usr/local/site-packages/ && rm -r /usr/local/site-packages/numpy.zip; \
+    fi
+RUN if [ ${PYTHON_VERSION%.*} = "3.8" ];\
+    then \
+      ## 去除docker容器的输出 \
+    wget https://mirrors.bfsu.edu.cn/pypi/web/packages/98/5d/5738903efe0ecb73e51eb44feafba32bdba2081263d40c5043568ff60faf/numpy-1.24.4-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl && mv numpy-1.24.4-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl numpy.zip && unzip numpy.zip && mv /numpy* /usr/local/site-packages/ && rm -r /usr/local/site-packages/numpy.zip; \
+    fi

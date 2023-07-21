@@ -4,10 +4,13 @@
 CUDA_ARCH_BIN指的是当前显卡的算力7.5
 ```bash
 docker build  --build-arg PYTHON_VERSION="3.10.11" --build-arg CUDA_ARCH_BIN="7.5"  --build-arg CUDA_VERSION="10.0"    --build-arg CUDNN_VERSION="7"  -t  jadehh/opencv-cuda:10.0-arch7.5-runtime-py3.10 .
+docker build  --build-arg PYTHON_VERSION="3.8.16"  --build-arg CUDA_ARCH_BIN="7.5"  --build-arg CUDA_VERSION="10.2"    --build-arg CUDNN_VERSION="8"  -t  jadehh/opencv-cuda:10.2-arch7.5-runtime-py3.8 .
+
 ```
 CUDA_ARCH_BIN指的是当前显卡的算力8.6
 ```bash
 docker build --build-arg PYTHON_VERSION="3.10.11" --build-arg CUDA_ARCH_BIN="8.6"   --build-arg CUDA_VERSION="11.6.2"  --build-arg CUDNN_VERSION="8"  -t  jadehh/opencv-cuda:11.6.2-arch8.6-runtime-py3.10 .
+docker build --build-arg PYTHON_VERSION="3.8.16"  --build-arg CUDA_ARCH_BIN="8.6"   --build-arg CUDA_VERSION="11.6.2"  --build-arg CUDNN_VERSION="8"  -t  jadehh/opencv-cuda:11.6.2-arch8.6-runtime-py3.8 .
 ```
 
 ### 启动
