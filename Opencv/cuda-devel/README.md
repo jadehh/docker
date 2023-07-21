@@ -5,12 +5,10 @@ CUDA_ARCH_BIN指的是当前显卡的算力7.5
 Python版本python3.10
 CUDA版本分为10.0和11.6.2两个版本
 ```bash
-docker build --build-arg PYTHON_VERSION="3.10.11" --build-arg CUDA_ARCH_BIN="7.5"    --build-arg CUDA_VERSION="10.0"    --build-arg CUDNN_VERSION="7"  -t   jadehh/opencv-cuda:10.0-arch7.5-devel-py3.10 .
 docker build --build-arg PYTHON_VERSION="3.8.16"  --build-arg CUDA_ARCH_BIN="7.5"    --build-arg CUDA_VERSION="10.2"    --build-arg CUDNN_VERSION="8"  -t   jadehh/opencv-cuda:10.2-arch7.5-devel-py3.8 .
 
 ```
-> 为了兼容高版本和低版本选择CUDA10.2,并使用Python3.8.16版本
-
+> 为了兼容高版本和低版本选择CUDA10.2,并使用Python3.8.16版本,低版本的ONNX不支持Python3.10
 
 
 > cuda环境不同需要升级显卡驱动
@@ -41,7 +39,7 @@ docker run --name opencv-cuda --gpus=all -v /mnt/c/Windows/System32/lxss/lib/lib
 ```
 拷贝opencv环境
 ```bash
-docker cp opencv-cuda:/opencv-cuda-10.0-cudnn7-arch-7.5-py3.10.gz ./
+docker cp opencv-cuda:/opencv-cuda-10.2-cudnn8-arch-7.5-py3.8.gz ./
 ```
 
 普通Ubuntu启动
