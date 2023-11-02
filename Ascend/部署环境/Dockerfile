@@ -5,7 +5,7 @@ RUN apt-get update
 RUN apt-get install -y wget unzip
 
 ## 安装推理引擎
-RUN wget https://ascend-repo.obs.cn-east-2.myhuaweicloud.com/CANN/6.0.0.alpha001/Ascend-cann-nnrt_6.0.0.alpha001_linux-aarch64.run
+RUN wget https://gh-proxy.com/https://github.com/jadehh/samples/releases/download/v1.0.7/Ascend-cann-nnrt_6.0.0.alpha001_linux-aarch64.run
 RUN umask 0022 && \
     groupadd -g 1001 HwHiAiUser && useradd -g HwHiAiUser -d /home/HwHiAiUser -m HwHiAiUser && usermod -u 1001 HwHiAiUser &&\
     chmod +x Ascend-cann-nnrt_6.0.0.alpha001_linux-aarch64.run &&\
@@ -31,6 +31,21 @@ RUN rm -r opencv_python_headless-4.6.0.66.dist-info
 RUN cp opencv_python_headless.libs/* /usr/lib/aarch64-linux-gnu/ && rm -r opencv_python_headless.libs
 
 
-## 清除缓存
-RUN apt-get purge -y wget unzip
-RUN apt-get clean
+## 安装SSH和Sudo命令
+RUN  apt-get install -y openssh-server && apt-get install -y sudo    && rm -rf /var/lib/apt/lists/*
+RUN echo "root:samples@123" | chpasswd
+# 添加用户
+RUN useradd -ms /bin/bash samples
+# 设置密码
+RUN echo "samples:samples@123" | chpasswd
+## 添加 samples sudo
+RUN echo 'samples    ALL=(ALL:ALL) ALL' >> /etc/sudoers
+RUN mkdir /var/run/sshd
+RUN echo 'Port 2222' >> /etc/ssh/sshd_config
+RUN echo 'ListenAddress 0.0.0.0' >> /etc/ssh/sshd_config
+RUN echo 'PermitUserEnvironment yes' >> /etc/ssh/sshd_config
+RUN echo 'export  LD_LIBRARY_PATH=LD_LIBRARY_PATH:/home/data/miniD/driver/lib64:/usr/local/Ascend/nnrt/latest//lib64:' >> /home/samples/.bashrc
+CMD ["/usr/sbin/sshd", "-D"]
+
+
+

@@ -71,13 +71,14 @@ docker run --name container_ocr-ascend-packing \
 ### 构建Image
 
 ```bash
-docker build -t jadehh/container_ocr:ascend-release-1.0.1 .
+docker build -t jadehh/container_ocr:ascend-release-1.0.2 .
 ```
 ### 启动容器
 
 ```bash
 docker run   \
-  --name container-ocr-ascend-release \
+  --name ubuntu \
+  -itd \
   --network=host \
   --privileged \
   --device=/dev/davinci0 \
@@ -87,7 +88,7 @@ docker run   \
   -v /home/data/miniD/driver/lib64:/home/data/miniD/driver/lib64 \
   -v /run/board_cfg.ini:/run/board_cfg.ini \
   -v /tmp:/tmp \
-  -it jadehh/container_ocr:ascend-release-1.0.1 
+   jadehh/container_ocr:ascend-release-1.0.2 /sbin/init
 
 ```
 
