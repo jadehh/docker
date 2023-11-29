@@ -1,11 +1,18 @@
 # Release环境
 FROM jadehh/ubuntu:aarch-18.04
 
+
+
 RUN apt-get update
 RUN apt-get install -y wget unzip
 
+
+
+## 设置中文环境
+ENV LANG=C.UTF-8
+
 ## 安装推理引擎
-RUN wget https://gh-proxy.com/https://github.com/jadehh/samples/releases/download/v1.0.7/Ascend-cann-nnrt_6.0.0.alpha001_linux-aarch64.run
+RUN wget https://gh.con.sh/https://github.com/jadehh/samples/releases/download/v1.0.7/Ascend-cann-nnrt_6.0.0.alpha001_linux-aarch64.run
 RUN umask 0022 && \
     groupadd -g 1001 HwHiAiUser && useradd -g HwHiAiUser -d /home/HwHiAiUser -m HwHiAiUser && usermod -u 1001 HwHiAiUser &&\
     chmod +x Ascend-cann-nnrt_6.0.0.alpha001_linux-aarch64.run &&\
@@ -32,7 +39,7 @@ RUN cp opencv_python_headless.libs/* /usr/lib/aarch64-linux-gnu/ && rm -r opencv
 
 
 ## 安装SSH和Sudo命令
-RUN  apt-get install -y openssh-server && apt-get install -y sudo    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y openssh-server && apt-get install -y htop  && apt-get install -y sudo  && apt-get install -y ntpdate  && rm -rf /var/lib/apt/lists/*
 RUN echo "root:samples@123" | chpasswd
 # 添加用户
 RUN useradd -ms /bin/bash samples

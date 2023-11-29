@@ -71,7 +71,7 @@ docker run --name container_ocr-ascend-packing \
 ### 构建Image
 
 ```bash
-docker build -t jadehh/container_ocr:ascend-release-1.0.2 .
+docker build -t jadehh/container_ocr:ascend-release-1.0.3 .
 ```
 ### 启动容器
 
@@ -85,10 +85,12 @@ docker run   \
   --device=/dev/davinci_manager \
   --device=/dev/hisi_hdc --device=/dev/devmm_svm \
   -v /usr/local/bin/npu-smi:/usr/local/bin/npu-smi \
+  -v /var/hasplm:/var/hasplm -v /etc/hasplm:/etc/hasplm \
   -v /home/data/miniD/driver/lib64:/home/data/miniD/driver/lib64 \
   -v /run/board_cfg.ini:/run/board_cfg.ini \
-  -v /tmp:/tmp \
-   jadehh/container_ocr:ascend-release-1.0.2 /sbin/init
+  -v /home/samples/sda2:/home/samples/sda2 \
+  --restart=always \
+   jadehh/container_ocr:ascend-release-1.0.3 /sbin/init
 
 ```
 
