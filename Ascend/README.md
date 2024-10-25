@@ -1,3 +1,12 @@
+## Ascend FFMPeg
+
+```bash
+cd FFMpeg
+docker build -t jadehh/ffmpeg:ascend-1.0.1 .
+```
+
+
+
 ## Ascend开发环境
 
 ### 构建Image

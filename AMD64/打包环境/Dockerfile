@@ -10,9 +10,7 @@ RUN echo "index-url = https://mirrors.bfsu.edu.cn/pypi/web/simple" >> /root/.pip
 RUN echo "trusted-host = mirrors.bfsu.edu.cn" >> /root/.pip/pip.conf
 
 
-RUN apt-get update
-RUN apt-get install -y python3-dev
-RUN apt-get install -y python3-pip
+RUN apt-get update && apt-get install -y python3-dev && apt-get install -y python3-pip && apt-get install -y ntpdate && rm -rf /var/lib/apt/lists/*
 RUN ln -s /usr/bin/python3 /usr/bin/python
 RUN ln -s /usr/bin/pip3 /usr/bin/pip
 RUN pip install -U pip setuptools
