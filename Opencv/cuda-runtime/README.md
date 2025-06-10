@@ -13,6 +13,14 @@ docker build --build-arg PYTHON_VERSION="3.8.16"  --build-arg CUDA_ARCH_BIN="8.6
 ```
 
 ### 启动
+
+Windows 启动
+```bash
+docker run --name opencv-cuda-gpu --gpus=all -v C:\Windows\System32\lxss\lib\libnvcuvid.so.1:/usr/lib/x86_64-linux-gnu/libnvcuvid.so.1 -v C:\Windows\System32\lxss\lib\libnvidia-encode.so.1:/usr/lib/x86_64-linux-gnu/libnvidia-encode.so.1 -d  jadehh/opencv-cuda:10.2-arch7.5-runtime-py3.8  bash -c " ./OpencvCapture -camera_ip=192.168.29.181 -camera_username=admin -camera_passwd=samples123 --use_gpu=False"
+docker run --name opencv-cuda-cpu --gpus=all -v C:\Windows\System32\lxss\lib\libnvcuvid.so.1:/usr/lib/x86_64-linux-gnu/libnvcuvid.so.1 -v C:\Windows\System32\lxss\lib\libnvidia-encode.so.1:/usr/lib/x86_64-linux-gnu/libnvidia-encode.so.1 -d  jadehh/opencv-cuda:10.2-arch7.5-runtime-py3.8  bash -c " ./OpencvCapture -camera_ip=192.168.29.181 -camera_username=admin -camera_passwd=samples123 --use_gpu=True"
+```
+
+
 wsl 启动
 ```bash
 docker run --name opencv-cuda-runtime --gpus=all -v /mnt/c/Windows/System32/lxss/lib/libnvcuvid.so.1:/usr/lib/x86_64-linux-gnu/libnvcuvid.so.1 -v /mnt/c/Windows/System32/lxss/lib/libnvidia-encode.so.1:/usr/lib/x86_64-linux-gnu/libnvidia-encode.so.1 -d  jadehh/opencv-cuda:10.0-arch7.5-runtime-py3.10  bash -c " ./OpencvCapture -camera_ip=192.168.29.181 -camera_username=admin -camera_passwd=samples123 --use_gpu=True"
