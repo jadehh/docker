@@ -1,15 +1,37 @@
-FROM jadehh/opencv-cuda:11.6.2-arch8.6-devel-py3.8
-# 添加 NVIDIA TensorRT 存储库
-#  https://developer.nvidia.com/downloads/compute/machine-learning/tensorrt/10.6.0/tars/TensorRT-10.6.0.26.Linux.x86_64-gnu.cuda-11.8.tar.gz
-RUN wget -q   http://192.168.40.215:8081/H%3A/%E8%BD%AF%E4%BB%B6/TensorRT-10.6.0.26.Linux.x86_64-gnu.cuda-11.8.tar.gz  && tar -xvf  TensorRT-10.6.0.26.Linux.x86_64-gnu.cuda-11.8.tar.gz && rm -r TensorRT-10.6.0.26.Linux.x86_64-gnu.cuda-11.8.tar.gz && mv /TensorRT-10.6.0.26/ /usr/local/tensorrt
-# 设置动态库搜索路径（Linux容器）
-ENV LD_LIBRARY_PATH="/usr/local/tensorrt/lib/:$LD_LIBRARY_PATH"
-# 设置可执行文件搜索路径
-ENV PATH="/usr/local/tensorrt/bin:$PATH"
-# 卸载旧版本的Cmake安装新版Cmake
-RUN apt-get purge -y cmake && wget https://github.com/Kitware/CMake/releases/download/v3.28.2/cmake-3.28.2.tar.gz && tar -xzvf cmake-3.28.2.tar.gz && cd cmake-3.28.2 && chmod 777 ./configure && ./configure && make -j$(nproc)  &&  make install && rm -r cmake*
+# 使用基础镜像
+FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04
+# 设置环境变量避免交互式提示
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y wget unzip  git   libjasper1 libjasper-dev libgl1-mesa-dev libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev  libswscale-dev libopenblas-dev  libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev  libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev  software-properties-common  build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev  libbz2-dev  && rm -rf /var/lib/apt/lists/*
+
+
+# 安装新版Cmake
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.28.2/cmake-3.28.2.tar.gz && tar -xzvf cmake-3.28.2.tar.gz && cd cmake-3.28.2 && chmod 777 ./configure && ./configure && make -j$(nproc)  &&  make install && rm -r /cmake*
 RUN update-alternatives --install /usr/bin/cmake cmake /usr/local/bin/cmake 1 --force
 
-# 安装PaddleInference
+# 安装Opencv
+RUN wget https://paddleocr.bj.bcebos.com/libs/opencv/opencv-3.4.7.tar.gz && tar -xf opencv-3.4.7.tar.gz && rm -r opencv-3.4.7.tar.gz && \
+    cd opencv-3.4.7 && mkdir build && cd build && \
+    cmake .. \
+    -DCMAKE_INSTALL_PREFIX=/usr/local/opencv/ \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DBUILD_SHARED_LIBS=OFF \
+    -DWITH_IPP=OFF \
+    -DBUILD_IPP_IW=OFF \
+    -DWITH_LAPACK=OFF \
+    -DWITH_EIGEN=OFF \
+    -DCMAKE_INSTALL_LIBDIR=lib64 \
+    -DWITH_ZLIB=ON \
+    -DBUILD_ZLIB=ON \
+    -DWITH_JPEG=ON \
+    -DBUILD_JPEG=ON \
+    -DWITH_PNG=ON \
+    -DBUILD_PNG=ON \
+    -DWITH_TIFF=ON \
+    -DBUILD_TIFF=ON &&\
+    make -j$(nproc) && make install && rm -r /opencv-3.4.7/
 
-RUN wget https://paddle-inference-lib.bj.bcebos.com/3.0.0/cxx_c/Linux/GPU/x86-64_gcc11.2_avx_mkl_cuda11.8_cudnn8.9.7-trt8.6.1.6/paddle_inference.tgz
+# 安装Paddle Inference
+RUN wget -q http://192.168.40.215:8081/H%3A/%E8%BD%AF%E4%BB%B6/paddle_inference.tgz && tar -xvf paddle_inference.tgz && rm -r paddle_inference.tgz && mv paddle_inference /usr/local/paddle_inference
+
